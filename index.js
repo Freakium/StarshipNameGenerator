@@ -1,6 +1,7 @@
 const init = (function() {
     const nameModal = new bootstrap.Modal('#namePreview');      // modal reference
     const NAME_LIST_COUNT = 24;                                 // Number of names to generate
+    const LONG_NAME_CHANCE = 5;                                 // 1 in x chance of generating longer name
 
     // called by ship name buttons to open preview modal
     window.previewName = (shipName) => {
@@ -30,7 +31,7 @@ const init = (function() {
 
     // give a 1 in 4 chance of generating a longer name
     generateLongNameChance = (shipName) => {
-        let randSecondary = Math.floor(Math.random() * 4);
+        let randSecondary = Math.floor(Math.random() * LONG_NAME_CHANCE);
         if(randSecondary) {
             // check if shipName is a month
             let months = library.nouns.slice(0,12);
