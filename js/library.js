@@ -1,23 +1,3 @@
-// var adjective = (lead, suffix) => {
-//   if (suffix) {
-//     return { lead, suffix};
-//   }
-//   return { lead, suffix: lead };
-// };
-
-// var adjectiveItem = adjective('Bloody', 'Blood');
-// var adjectiveautumn = adjective('Autumn');
-
-// var lib = {
-//   adjectives: [
-//     adjective('Bloody', 'Blood'),
-//     adjective('Autumn')
-//   ]
-// }
-
-// var nameFwd = `${adjectiveItem.lead} Mary`;
-// var nameOf = `Mary of ${adjectiveItem.suffix}`;
-
 var library = {
   "adjectives": [
     "Autumn",
@@ -32,6 +12,7 @@ var library = {
     "Flying",
     "Forward",
     "Fortunate",
+    "Infinite",
     "Intrepid",
     "Iron",
     "Lone",
@@ -49,12 +30,13 @@ var library = {
     "Thundering",
     "Wandering",
     "Weeping",
-    "Winter"
-  ],
-  "colours": [
+    "Winter",
+
+    // colours
     "Azure",
     "Black",
     "Blue",
+    "Crimson",
     "Gray",
     "Green",
     "Grey",
@@ -64,7 +46,47 @@ var library = {
     "Red",
     "Rouge",
     "White",
-    "Yellow"
+    "Yellow",
+
+    // Numbering
+    "First",
+    "Second",
+    "Third",
+    "Fourth",
+    "Fifth",
+    "Sixth",
+    "Seventh",
+    "Eighth",
+    "Ninth",
+    "Tenth",
+
+    // Radio
+    "Alpha",
+    "Bravo",
+    "Charlie",
+    "Delta",
+    "Echo",
+    "Foxtrot",
+    "Golf",
+    "Hotel",
+    "India",
+    "Juliett",
+    "Kilo",
+    "Lima",
+    "Mike",
+    "November",
+    "Oscar",
+    "Papa",
+    "Quebec",
+    "Romeo",
+    "Sierra",
+    "Tango",
+    "Uniform",
+    "Victor",
+    "Whiskey",
+    "X-ray",
+    "Yankee",
+    "Zulu"
   ],
   "nouns": [
     "Ambassador",
@@ -74,6 +96,7 @@ var library = {
     "Chariot",
     "Child",
     "Columbia",
+    "Column",
     "Comet",
     "Constellation",
     "Crusader",
@@ -86,29 +109,36 @@ var library = {
     "Endeavour",
     "Eternity",
     "Equinox",
+    "Fire",
     "Firefly",
     "Fortune",
     "Fog",
     "Griffin",
     "Hammer",
+    "Horror",
     "Horse",
     "Hurricane",
+    "Infinity",
     "Inquisitor",
     "Insomniac",
     "Javelin",
     "Jenny",
+    "Knight",
     "Lancaster",
+    "Lance",
     "Leviathan",
     "Lord",
     "Magpie",
     "Mary",
     "Mountain",
+    "Paladin",
     "Pearl",
     "Pillar",
     "Prometheus",
     "Rain",
     "Raven",
     "Regent",
+    "River",
     "Rocinante",
     "Rogue",
     "Sea",
@@ -125,6 +155,7 @@ var library = {
     "Sunrise",
     "Surprise",
     "Terrier",
+    "Terror",
     "Thunder",
     "Tornado",
     "Tsunami",

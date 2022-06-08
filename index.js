@@ -9,7 +9,7 @@ const init = (function() {
         nameModal.show();
     }
 
-    // get word from a specific word group in the library [adjectives, colours, nouns]
+    // get word from a specific word group in the library [adjectives, nouns]
     getWord = (group) => {
         let index = Math.floor(Math.random() * library[group].length);
         return library[group][index];
@@ -27,33 +27,25 @@ const init = (function() {
     generateNames = () => {
         let shipNames = [];
         for(let i=0; i<16; i++) {
-            let randSecondary = Math.floor(Math.random() * 3);
+            let randSecondary = Math.floor(Math.random() * 2);
             let shipName = getWord('nouns');
             
-            // generate a longer name
+            // generate a longer name (add an adjective or noun)
             if(randSecondary) {
-                // add a colour
-                if(randSecondary == 1) {
-                    let colour = getWord('colours');
-                    shipName = `${colour} ${shipName}`;
+                // choose to add 'of' in between name
+                if(Math.floor(Math.random() * 2)) {
+                    let secondNoun = getUniqueNoun(shipName);
+                    shipName = `${shipName} of ${secondNoun}`;
                 }
-                // add an adjective or noun
                 else {
-                    // choose to add 'of' in between name
-                    if(Math.floor(Math.random() * 2)) {
-                        let secondNoun = getUniqueNoun(shipName);
-                        shipName = `${shipName} of ${secondNoun}`;
-                    }
-                    else {
-                        // use a noun or adjective
-                        let randNoun = Math.floor(Math.random() * 2);
+                    // use a noun or adjective
+                    let randNoun = Math.floor(Math.random() * 2);
 
-                        let word = randNoun
-                            ? getUniqueNoun(shipName)
-                            : getWord('adjectives');
+                    let word = randNoun
+                        ? getUniqueNoun(shipName)
+                        : getWord('adjectives');
 
-                        shipName = `${word} ${shipName}`;
-                    }
+                    shipName = `${word} ${shipName}`;
                 }
             }
             
