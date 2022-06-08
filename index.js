@@ -24,30 +24,36 @@ const init = (function() {
         return uniqueNoun;
     }
 
+    // give a 1 in 4 chance of generating a longer name
+    generateLongNameChance = (shipName) => {
+        let randSecondary = Math.floor(Math.random() * 4);
+        if(randSecondary) {
+            // choose to add 'of' in between name
+            if(Math.floor(Math.random() * 2)) {
+                let secondNoun = getUniqueNoun(shipName);
+                shipName = `${shipName} of ${secondNoun}`;
+            }
+            else {
+                // use a noun or adjective
+                let randNoun = Math.floor(Math.random() * 2);
+
+                let word = randNoun
+                    ? getUniqueNoun(shipName)
+                    : getWord('adjectives');
+
+                shipName = `${word} ${shipName}`;
+            }
+        }
+
+        return shipName;
+    }
+
+    // generate a list of 16 ship names
     generateNames = () => {
         let shipNames = [];
         for(let i=0; i<16; i++) {
-            let randSecondary = Math.floor(Math.random() * 2);
             let shipName = getWord('nouns');
-            
-            // generate a longer name (add an adjective or noun)
-            if(randSecondary) {
-                // choose to add 'of' in between name
-                if(Math.floor(Math.random() * 2)) {
-                    let secondNoun = getUniqueNoun(shipName);
-                    shipName = `${shipName} of ${secondNoun}`;
-                }
-                else {
-                    // use a noun or adjective
-                    let randNoun = Math.floor(Math.random() * 2);
-
-                    let word = randNoun
-                        ? getUniqueNoun(shipName)
-                        : getWord('adjectives');
-
-                    shipName = `${word} ${shipName}`;
-                }
-            }
+            shipName = generateLongNameChance(shipName);
             
             // make sure there are no repeats
             const found = shipNames.find(el => el == shipName);

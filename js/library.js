@@ -1,6 +1,25 @@
+// var adjective = (lead, suffix) => {
+//   if (suffix) {
+//     return { lead, suffix};
+//   }
+//   return { lead, suffix: lead };
+// };
+
+// var adjectiveItem = adjective('Bloody', 'Blood');
+// var adjectiveautumn = adjective('Autumn');
+
+// var lib = {
+//   adjectives: [
+//     adjective('Bloody', 'Blood'),
+//     adjective('Autumn')
+//   ]
+// }
+
+// var nameFwd = `${adjectiveItem.lead} Mary`;
+// var nameOf = `Mary of ${adjectiveItem.suffix}`;
+
 var library = {
   "adjectives": [
-    "Autumn",
     "Bloody",
     "Colored",
     "Coloured",
@@ -17,20 +36,18 @@ var library = {
     "Iron",
     "Lone",
     "Lucid",
+    "Quantum",
     "Raving",
     "Relentless",
     "Sandy",
     "Silent",
     "Silk",
     "Sleeping",
-    "Spring",
     "Steel",
-    "Summer",
     "Thieving",
     "Thundering",
     "Wandering",
     "Weeping",
-    "Winter",
 
     // colours
     "Azure",
@@ -90,6 +107,9 @@ var library = {
   ],
   "nouns": [
     "Ambassador",
+    "Autumn",
+    "Bane",
+    "Balance",
     "Bull",
     "Cartographer",
     "Challenger",
@@ -113,6 +133,7 @@ var library = {
     "Firefly",
     "Fortune",
     "Fog",
+    "Galaxy",
     "Griffin",
     "Hammer",
     "Horror",
@@ -123,6 +144,7 @@ var library = {
     "Insomniac",
     "Javelin",
     "Jenny",
+    "Judgement",
     "Knight",
     "Lancaster",
     "Lance",
@@ -131,6 +153,7 @@ var library = {
     "Magpie",
     "Mary",
     "Mountain",
+    "Nebula",
     "Paladin",
     "Pearl",
     "Pillar",
@@ -149,8 +172,10 @@ var library = {
     "Somnambulist",
     "Sovereign",
     "Spider",
+    "Spring",
     "Son",
     "Spartan",
+    "Summer",
     "Sun",
     "Sunrise",
     "Surprise",
@@ -160,12 +185,15 @@ var library = {
     "Tornado",
     "Tsunami",
     "Tundra",
+    "Universe",
     "Vengeance",
     "Wanderer",
     "War",
     "Warbird",
     "Weasel",
     "Widow",
+    "Winter",
+    "Wrath",
     "Yorktown",
 
     // Months
