@@ -6,4 +6,5 @@ A JS project that generates a list of names for a starship.
 - Click on the name of a starship to open the preview window.
 - The preview window allows for prefix and darker hull option.
 
+____
 Currently hosted at http://shipnamegen.scienceontheweb.net/
