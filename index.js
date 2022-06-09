@@ -102,11 +102,11 @@ const init = (function() {
         let shipName = document.getElementById('shipName');
 
         if(invert) {
-            shipHull.style.backgroundImage = 'url("img/SpaceshipHullDark.jpg")';
+            shipHull.style.backgroundImage = 'url("img/StarshipHullDark.jpg")';
             shipName.classList.remove('text-black');
         }
         else {
-            shipHull.style.backgroundImage = 'url("img/SpaceshipHull.jpg")';
+            shipHull.style.backgroundImage = 'url("img/StarshipHull.jpg")';
             shipName.classList.add('text-black');
         }
     }
