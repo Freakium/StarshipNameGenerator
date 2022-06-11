@@ -1,7 +1,8 @@
 const init = (function() {
     const nameModal = new bootstrap.Modal('#namePreview');      // modal reference
     const NAME_LIST_COUNT = 24;                                 // Number of names to generate
-    const LONG_NAME_CHANCE = 5;                                 // 1 in x chance of generating longer name
+    const LONG_NAME_CHANCE = 0.8;                               // chance of generating longer name
+    const USE_OF_CHANCE = 0.2;                                  // chance of adding "of" between name
 
     // called by ship name buttons to open preview modal
     window.previewName = (shipName) => {
@@ -31,14 +32,13 @@ const init = (function() {
 
     // give a 1 in 4 chance of generating a longer name
     generateLongNameChance = (shipName) => {
-        let randSecondary = Math.floor(Math.random() * LONG_NAME_CHANCE);
-        if(randSecondary) {
+        if(Math.random() < LONG_NAME_CHANCE) {
             // check if shipName is a month
             let months = library.nouns.slice(0,12);
             let isMonth = months.find(el => el === shipName);
 
-            // choose to add 'of' in between name
-            if(Math.floor(Math.random() * 2)) {
+            // choose to add 'of' in between name (noun of noun)
+            if(Math.random() < USE_OF_CHANCE) {
                 let secondNoun = getUniqueNoun(shipName, isMonth);
                 
                 // if primary ship name is month, set order accordingly
@@ -126,6 +126,9 @@ const init = (function() {
         document.getElementById('txtPrefix').value = "";
         addPrefix();
     }
+
+    // INIT
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     // listeners
     document.getElementById('generateBtn').addEventListener('click', generateNames);
