@@ -175,15 +175,14 @@ const init = (function() {
 
     // copy the ship name to the clipboard
     copyNameToClipboard = () => {
-        let primary = document.getElementById('shipPrimary').innerHTML;
+        let fullName = document.getElementById('shipPrimary').innerHTML;
         let preposition = document.getElementById('shipPreposition').innerHTML;
         let affix = document.getElementById('shipAffix').innerHTML;
         let prefix = document.getElementById('shipPrefix').innerHTML;
 
-        let wordList = [prefix, affix, preposition, primary];
-        let fullName = wordList.join(' ');
-
-        navigator.clipboard.writeText(fullName.toUpperCase());
+        let wordList = [preposition, affix, prefix];
+        wordList.map(word => (fullName = word !== '' ? `${word} ${fullName}` : fullName));
+        navigator.clipboard.writeText(fullName.toLocaleUpperCase());
 
         // display success message and disable button for set duration
         let copyBtn = document.getElementById('btnCopy');
