@@ -189,17 +189,11 @@ const init = (function() {
         }
         // save using 'I'm too poor for SSL' method
         else {
-            let textArea = document.createElement("textarea");
-            textArea.value = fullName.toLocaleUpperCase();
-
-            textArea.style.position = "fixed";
-            textArea.style.left = "-999999px";
-            textArea.style.top = "-999999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+            let textBox = document.getElementById('txtCopy');
+            textBox.value = fullName.toLocaleUpperCase();
+            textBox.focus();
+            textBox.select();
             document.execCommand('copy');
-            textArea.remove();
         }
 
         // display success message and disable button for set duration
