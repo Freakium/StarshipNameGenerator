@@ -2,15 +2,22 @@ const init = (function() {
     const nameModal = new bootstrap.Modal('#namePreview');      // modal reference
     const NAME_LIST_COUNT = 24;                                 // Number of names to generate
     const LONG_NAME_CHANCE = 0.8;                               // chance of generating longer name
-    const USE_OF_CHANCE = 0.2;                                  // chance of adding "of" between name
+    const TIMEOUT_DURATION = 3000;                              // show message time in milliseconds
 
+    // GLOBAL FUNCTIONS
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    
     // called by ship name buttons to open preview modal
-    window.previewName = (shipName) => {
-        document.getElementById('titleShipName').innerHTML = shipName;
-        document.getElementById('shipName').innerHTML = shipName;
-        addPrefix();
+    window.previewName = (id) => {
+        let shipName = document.getElementById(id).innerHTML;
+        decipherShipName(shipName);
+
+        document.getElementById('namePreview').setAttribute('data-nameid', id);
         nameModal.show();
     }
+
+    // Name Generation
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     // get word from a specific word group in the library [adjectives, nouns]
     getWord = (group, isMonth) => {
@@ -37,27 +44,16 @@ const init = (function() {
             let months = library.nouns.slice(0,12);
             let isMonth = months.find(el => el === shipName);
 
-            // choose to add 'of' in between name (noun of noun)
-            if(Math.random() < USE_OF_CHANCE) {
-                let secondNoun = getUniqueNoun(shipName, isMonth);
-                
-                // if primary ship name is month, set order accordingly
-                shipName = isMonth
-                    ? `${secondNoun} of ${shipName}`
-                    : `${shipName} of ${secondNoun}`;
-            }
             // prepend a noun or adjective
-            else {
-                let randNoun = Math.floor(Math.random() * 2);
-                let word = randNoun
-                    ? getUniqueNoun(shipName, isMonth)
-                    : getWord('adjectives');
+            let randNoun = Math.floor(Math.random() * 2);
+            let word = randNoun
+                ? getUniqueNoun(shipName, isMonth)
+                : getWord('adjectives');
 
-                // if primary ship name is month, set order accordingly
-                shipName = randNoun && isMonth
-                    ? `${shipName} ${word}`
-                    : `${word} ${shipName}`;
-            }
+            // if primary ship name is month, set order accordingly
+            shipName = randNoun && isMonth
+                ? `${shipName} ${word}`
+                : `${word} ${shipName}`;
         }
 
         return shipName;
@@ -86,30 +82,37 @@ const init = (function() {
     // Display names to nameList
     displayNames = (shipNames) => {
         let display = '';
-        shipNames.map((shipName) => {
+        shipNames.map((shipName, index) => {
             display +=
                 `<div class="col">
-                    <button class="btn btn-name w-100 text-black fw-bold" onclick="previewName('${shipName}');">${shipName}</button>
+                    <button class="btn btn-name w-100 text-black fw-bold" id="name${index}" onclick="previewName(this.id);">${shipName}</button>
                 </div>`;
         });
 
         document.getElementById('nameList').innerHTML = display;
     }
 
-    // inverts preview window colour
-    invertHullColour = (invert) => {
-        let shipHull = document.getElementById('starshipHull');
-        let shipName = document.getElementById('shipName');
+    // splits ship name into [Affix, Preposition, Primary] and displays it in the preview modal
+    decipherShipName = (shipName) => {
+        let names = shipName.split(' ');
 
-        if(invert) {
-            shipHull.style.backgroundImage = 'url("img/StarshipHullDark.jpg")';
-            shipName.classList.remove('text-black');
-        }
-        else {
-            shipHull.style.backgroundImage = 'url("img/StarshipHull.jpg")';
-            shipName.classList.add('text-black');
-        }
+        // add primary name
+        document.getElementById('shipPrimary').innerHTML = names.pop();
+
+        // add affix
+        document.getElementById('shipAffix').innerHTML = names.length
+            ? names.shift()
+            : '';
+
+        // add preposition
+        document.getElementById('txtPreposition').value = names.length
+            ? names.join()
+            : '';
+        addPreposition();
     }
+
+    // USER INTERACTION
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     // add prefix to ship name
     addPrefix = (e) => {
@@ -117,14 +120,89 @@ const init = (function() {
             ? document.getElementById('txtPrefix').value
             : e.target.value;
 
-        let shipName = document.getElementById('titleShipName').innerHTML;
-        document.getElementById('shipName').innerHTML = `${prefix} ${shipName}`;
+        document.getElementById('shipPrefix').innerHTML = prefix;
     }
 
     // clears the prefix input field
     clearPrefix = () => {
         document.getElementById('txtPrefix').value = "";
         addPrefix();
+    }
+
+    // add preposition to ship name
+    addPreposition = (e) => {
+        let preposition = typeof e === 'undefined'
+            ? document.getElementById('txtPreposition').value
+            : e.target.value;
+
+        document.getElementById('shipPreposition').innerHTML = preposition;
+    }
+
+    // clears the preposition input field
+    clearPreposition = () => {
+        document.getElementById('txtPreposition').value = "";
+        addPreposition();
+    }
+
+    // toggles hull and ship name colour
+    toggleHullColour = (invert) => {
+        let button = document.getElementById('btnInvert');
+        let shipHull = document.getElementById('starshipHull');
+        let shipName = document.getElementById('shipName');
+
+        if(invert) {
+            shipHull.style.backgroundImage = 'url("img/StarshipHull.jpg")';
+            shipName.classList.add('text-black');
+            button.removeAttribute('data-dark');
+        }
+        else {
+            shipHull.style.backgroundImage = 'url("img/StarshipHullDark.jpg")';
+            shipName.classList.remove('text-black');
+            button.setAttribute('data-dark', true);
+        }
+    }
+
+    // swaps the primary and affix ship names
+    swapNamePosition = () => {
+        let primary = document.getElementById('shipPrimary');
+        let affix = document.getElementById('shipAffix');
+        let newPrimary = affix.innerHTML;
+        let newAffix = primary.innerHTML;
+        
+        primary.innerHTML = newPrimary;
+        affix.innerHTML = newAffix;
+    }
+
+    // copy the ship name to the clipboard
+    copyNameToClipboard = () => {
+        let primary = document.getElementById('shipPrimary').innerHTML;
+        let preposition = document.getElementById('shipPreposition').innerHTML;
+        let affix = document.getElementById('shipAffix').innerHTML;
+        let prefix = document.getElementById('shipPrefix').innerHTML;
+
+        let wordList = [prefix, affix, preposition, primary];
+        let fullName = wordList.join(' ');
+
+        navigator.clipboard.writeText(fullName.toUpperCase());
+
+        // display success message and disable button for set duration
+        let copyBtn = document.getElementById('btnCopy');
+        copyBtn.innerHTML = 'Name Copied!';
+        copyBtn.setAttribute('disabled', true);
+        setTimeout(() => {
+            copyBtn.innerHTML = 'Copy';
+            copyBtn.removeAttribute('disabled');
+        }, TIMEOUT_DURATION);
+    }
+
+    // check whether or not to hide the swap button
+    swapButtonHideCheck = () => {
+        let swapBtn = document.getElementById('btnSwap');
+        let affix = document.getElementById('shipAffix').innerHTML;
+
+        affix
+            ? swapBtn.classList.remove('d-none')
+            : swapBtn.classList.add('d-none');
     }
 
     // INIT
@@ -134,11 +212,32 @@ const init = (function() {
     document.getElementById('generateBtn').addEventListener('click', generateNames);
     document.getElementById('txtPrefix').addEventListener('input', addPrefix);
     document.getElementById('clearPrefix').addEventListener('click', clearPrefix);
+    document.getElementById('txtPreposition').addEventListener('input', addPreposition);
+    document.getElementById('clearPreposition').addEventListener('click', clearPreposition);
     
-    let invertCheckbox = document.getElementById('chkInvert');
-    invertCheckbox.checked = false;
-    invertCheckbox.addEventListener('change', () => {
-        invertHullColour(invertCheckbox.checked);
+    // toggle hull colour button
+    const invertCheckbox = document.getElementById('btnInvert');
+    invertCheckbox.addEventListener('click', () => {
+        toggleHullColour(invertCheckbox.dataset.dark);
+    });
+    
+    // swap name position button
+    const swapPosition = document.getElementById('btnSwap');
+    swapPosition.addEventListener('click', () => {
+        swapNamePosition();
+    });
+    
+    // copy name button
+    const copyName = document.getElementById('btnCopy');
+    copyName.addEventListener('click', () => {
+        copyNameToClipboard();
+    });
+
+    // run on modal open
+    const showModal = document.getElementById('namePreview');
+    showModal.addEventListener('show.bs.modal', () => {
+        addPrefix();
+        swapButtonHideCheck();
     });
     
     // initialize

@@ -67,31 +67,45 @@
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content bg-dark">
             <div class="modal-header border-0">
-              <h4 class="modal-title text-light" id="namePreviewLabel">This is <span id="titleShipName">Enterprise</span>. Welcome Aboard!</h4>
+              <h4 class="modal-title text-light" id="namePreviewLabel">Welcome Aboard!</h4>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <div class="d-flex align-items-center justify-content-center h-75" id="starshipHull">
-                <h1 class="text-center text-black" id="shipName">Enterprise</h1>
+                <h1 class="text-center text-black" id="shipName">
+                  <span id="shipPrefix"></span>
+                  <span id="shipAffix"></span>
+                  <span id="shipPreposition"></span>
+                  <span id="shipPrimary"></span>
+                </h1>
               </div>
-              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 text-white mt-1">
-                <div class="col">
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-text">Prefix</span>
-                    <input type="text" class="form-control" id="txtPrefix">
-                    <button class="btn btn-outline-light" type="button" id="clearPrefix">✖</button>
+              <div class="container mt-3">
+                <div class="row">
+                  <div class="col-md mb-3">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text">Prefix</span>
+                      <input type="text" class="form-control" id="txtPrefix" placeholder="U.S.S.">
+                      <button class="btn btn-outline-light" type="button" id="clearPrefix">✖</button>
+                    </div>
+                  </div>
+                  <div class="col-md mb-3">
+                    <div class="input-group input-group-sm">
+                      <span class="input-group-text">Preposition</span>
+                      <input type="text" class="form-control" id="txtPreposition" placeholder="of">
+                      <button class="btn btn-outline-light" type="button" id="clearPreposition">✖</button>
+                    </div>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="chkInvert">
-                    <label class="form-check-label user-select-none" for="chkInvert">Invert Hull Colour</label>
-                  </div>     
-                </div>        
+                <div class="row">
+                  <div class="col">
+                    <button class="btn btn-sm btn-light me-sm-2 mb-3" id="btnInvert">Toggle Hull Colour</button>
+                    <button class="btn btn-sm btn-primary mb-3" id="btnSwap">Swap Name Position</button>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="modal-footer border-0">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-sm btn-success" id="btnCopy">Copy</button>
             </div>
           </div>
         </div>
