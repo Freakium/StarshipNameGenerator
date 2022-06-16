@@ -216,6 +216,12 @@ const init = (function() {
             : swapBtn.classList.add('d-none');
     }
 
+    // highlights visited name in list
+    highlightListName = () => {
+        let id = document.getElementById('namePreview').dataset.nameid;
+        document.getElementById(id).classList.add('btn-outline-name');
+    }
+
     // TODO: add carousel for preview window
 
     // INIT
@@ -247,10 +253,15 @@ const init = (function() {
     });
 
     // run on modal open
-    const showModal = document.getElementById('namePreview');
-    showModal.addEventListener('show.bs.modal', () => {
+    let modalRef = document.getElementById('namePreview');
+    modalRef.addEventListener('show.bs.modal', () => {
         addPrefix();
         swapButtonHideCheck();
+    });
+
+    // run on modal close
+    modalRef.addEventListener('hide.bs.modal', () => {
+        highlightListName();
     });
     
     // initialize
