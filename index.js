@@ -182,7 +182,25 @@ const init = (function() {
 
         let wordList = [preposition, affix, prefix];
         wordList.map(word => (fullName = word !== '' ? `${word} ${fullName}` : fullName));
-        navigator.clipboard.writeText(fullName.toLocaleUpperCase());
+
+        // save using secure method
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(fullName.toLocaleUpperCase());
+        }
+        // save using 'I'm too poor for SSL' method
+        else {
+            let textArea = document.createElement("textarea");
+            textArea.value = fullName.toLocaleUpperCase();
+
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            textArea.remove();
+        }
 
         // display success message and disable button for set duration
         let copyBtn = document.getElementById('btnCopy');
@@ -203,6 +221,8 @@ const init = (function() {
             ? swapBtn.classList.remove('d-none')
             : swapBtn.classList.add('d-none');
     }
+
+    // TODO: add carousel for preview window
 
     // INIT
     ///////////////////////////////////////////////////////////////////////////////////////////
