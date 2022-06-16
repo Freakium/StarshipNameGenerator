@@ -37,7 +37,7 @@ const init = (function() {
         return uniqueNoun;
     }
 
-    // give a 1 in 4 chance of generating a longer name
+    // Affix another word to the name
     generateLongNameChance = (shipName) => {
         if(Math.random() < LONG_NAME_CHANCE) {
             // check if shipName is a month
