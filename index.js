@@ -222,8 +222,6 @@ const init = (function() {
         document.getElementById(id).classList.add('btn-outline-name');
     }
 
-    // TODO: add carousel for preview window
-
     // INIT
     ///////////////////////////////////////////////////////////////////////////////////////////
 
