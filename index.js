@@ -19,41 +19,22 @@ const init = (function() {
     // Name Generation
     ///////////////////////////////////////////////////////////////////////////////////////////
 
-    // get word from a specific word group in the library [adjectives, nouns]
-    getWord = (group, isMonth) => {
-        let index = isMonth
-            ? Math.floor(Math.random() * (library[group].length - 12)) + 12     // skip months
-            : Math.floor(Math.random() * library[group].length);
-        return library[group][index];
-    }
-
-    // grab a unique word that is not a repeat of given parameter
-    getUniqueNoun = (shipName, isMonth) => {
-        let uniqueNoun = getWord('nouns', isMonth);
-        while(uniqueNoun === shipName) {
-            uniqueNoun = getWord('nouns', isMonth);
-        }
-        
-        return uniqueNoun;
+    // get word from a specific word group in the library of adjectives, nouns, verbs
+    getWord = (group) => {
+        let index = Math.floor(Math.random() * group.length);
+        return group[index];
     }
 
     // Affix another word to the name
     generateLongNameChance = (shipName) => {
         if(Math.random() < LONG_NAME_CHANCE) {
-            // check if shipName is a month
-            let months = library.nouns.slice(0,12);
-            let isMonth = months.find(el => el === shipName);
+            let randWord = Math.floor(Math.random() * 2);
+            let word = randWord ? getWord(adjectives) : getWord(verbs);
 
-            // prepend a noun or adjective
-            let randNoun = Math.floor(Math.random() * 2);
-            let word = randNoun
-                ? getUniqueNoun(shipName, isMonth)
-                : getWord('adjectives');
-
-            // if primary ship name is month, set order accordingly
-            shipName = randNoun && isMonth
-                ? `${shipName} ${word}`
-                : `${word} ${shipName}`;
+            // if word is a verb, append to ship Name
+            shipName = randWord
+                ? `${word} ${shipName}`
+                : `${shipName} ${word}`;
         }
 
         return shipName;
@@ -65,7 +46,7 @@ const init = (function() {
         let i = 0;
         
         while(i<NAME_LIST_COUNT) {
-            let shipName = getWord('nouns');
+            let shipName = Math.floor(Math.random() * 2) ? getWord(nouns) : getWord(verbs);
             shipName = generateLongNameChance(shipName);
             
             // make sure there are no repeats
