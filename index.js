@@ -2,6 +2,7 @@ const init = (function() {
     const nameModal = new bootstrap.Modal('#namePreview');      // modal reference
     const NAME_LIST_COUNT = 24;                                 // Number of names to generate
     const LONG_NAME_CHANCE = 0.8;                               // chance of generating longer name
+    const NOUN_CHANCE = 0.8;                                    // chance of using noun for primary ship name
     const TIMEOUT_DURATION = 3000;                              // show message time in milliseconds
 
     // GLOBAL FUNCTIONS
@@ -46,7 +47,7 @@ const init = (function() {
         let i = 0;
         
         while(i<NAME_LIST_COUNT) {
-            let shipName = Math.floor(Math.random() * 2) ? getWord(nouns) : getWord(verbs);
+            let shipName = (Math.random() < NOUN_CHANCE) ? getWord(nouns) : getWord(verbs);
             shipName = generateLongNameChance(shipName);
             
             // make sure there are no repeats
