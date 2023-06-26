@@ -26,11 +26,21 @@ const init = (function() {
         return group[index];
     }
 
+    // grab a unique word that is not a repeat of given parameter
+    getUniqueVerb = (shipName) => {
+        let uniqueVerb = getWord(verbs);
+        while(uniqueVerb === shipName) {
+            uniqueVerb = getWord(verbs);
+        }
+        
+        return uniqueVerb;
+    }
+
     // Affix another word to the name
     generateLongNameChance = (shipName) => {
         if(Math.random() < LONG_NAME_CHANCE) {
             let randWord = Math.floor(Math.random() * 2);
-            let word = randWord ? getWord(adjectives) : getWord(verbs);
+            let word = randWord ? getWord(adjectives) : getUniqueVerb(shipName);
 
             // if word is a verb, append to ship Name
             shipName = randWord
