@@ -3,6 +3,7 @@ const init = (function() {
     const NAME_LIST_COUNT = 24;                                 // Number of names to generate
     const LONG_NAME_CHANCE = 0.8;                               // chance of generating longer name
     const NOUN_CHANCE = 0.8;                                    // chance of using noun for primary ship name
+    const VERB_CHANCE = 0.5;                                    // chance of using verb for primary ship name
     const TIMEOUT_DURATION = 3000;                              // show message time in milliseconds
 
     // GLOBAL FUNCTIONS
@@ -37,18 +38,14 @@ const init = (function() {
     }
 
     // Affix another word to the name
-    generateLongNameChance = (shipName) => {
-        if(Math.random() < LONG_NAME_CHANCE) {
-            let randWord = Math.floor(Math.random() * 2);
-            let word = randWord ? getWord(adjectives) : getUniqueVerb(shipName);
+    generateLongName = (shipName) => {
+        let randWord = Math.floor(Math.random() * 2);
+        let word = randWord ? getWord(adjectives) : getUniqueVerb(shipName);
 
-            // if word is a verb, append to ship Name
-            shipName = randWord
-                ? `${word} ${shipName}`
-                : `${shipName} ${word}`;
-        }
-
-        return shipName;
+        // if word is a verb, append to ship Name
+        return randWord
+            ? `${word} ${shipName}`
+            : `${shipName} ${word}`;
     }
 
     // generate a list of ship names
@@ -57,8 +54,20 @@ const init = (function() {
         let i = 0;
         
         while(i<NAME_LIST_COUNT) {
-            let shipName = (Math.random() < NOUN_CHANCE) ? getWord(nouns) : getWord(verbs);
-            shipName = generateLongNameChance(shipName);
+            let shipName = "";
+
+            if(Math.random() < LONG_NAME_CHANCE) {
+                shipName = (Math.random() < NOUN_CHANCE) ? getWord(nouns) : getWord(verbs);
+                shipName = generateLongName(shipName);
+            }
+            // include adjectives in singular ship name
+            else {
+                shipName = (Math.random() < NOUN_CHANCE)
+                    ? getWord(nouns)
+                    : (Math.random() < VERB_CHANCE)
+                        ? getWord(verbs)
+                        : getWord(adjectives);
+            }
             
             // make sure there are no repeats
             const found = shipNames.find(el => el == shipName);
