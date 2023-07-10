@@ -17,6 +17,7 @@ var verbs = [
   "Flay",
   "Focus",
   "Hamper",
+  "Jump",
   "Light",
   "Park",
   "Parlay",
@@ -34,6 +35,8 @@ var verbs = [
   "Run",
   "Sense",
   "Sport",
+  "Stroll",
   "Trek",
   "Trial",
+  "Walk"
 ];
