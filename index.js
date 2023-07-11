@@ -132,7 +132,7 @@ const init = (function() {
 
         // add preposition
         document.getElementById('txtPreposition').value = names.length
-            ? names.join()
+            ? names.join(' ')
             : '';
 
         addPreposition();
@@ -287,6 +287,15 @@ const init = (function() {
     // run on modal close
     modalRef.addEventListener('hide.bs.modal', () => {
         highlightListName();
+
+        // save current changes to ship button
+        let affix = document.getElementById('shipAffix').innerHTML;
+        let preposition = document.getElementById('shipPreposition').innerHTML;
+        preposition = preposition ? ` ${preposition} ` : ' ';
+        let primary = document.getElementById('shipPrimary').innerHTML;
+
+        let shipButtonId = document.getElementById('namePreview').getAttribute('data-nameid');
+        document.getElementById(shipButtonId).innerHTML = `${affix}${preposition}${primary}`;
     });
     
     // initialize
