@@ -18,7 +18,7 @@ const init = (function() {
         nameModal.show();
     }
 
-    // Name Generation
+    // NAME GENERATION
     ///////////////////////////////////////////////////////////////////////////////////////////
 
     // get word from a specific word group in the library of adjectives, nouns, verbs
@@ -37,15 +37,40 @@ const init = (function() {
         return uniqueVerb;
     }
 
-    // Affix another word to the name
+    // Affix another word or preposition to the name
     generateLongName = (shipName) => {
-        let randWord = Math.floor(Math.random() * 2);
-        let word = randWord ? getWord(adjectives) : getUniqueVerb(shipName);
+        let randWord = Math.floor(Math.random() * 3);
+        let fullShipName = "";
 
-        // if word is a verb, append to ship Name
-        return randWord
-            ? `${word} ${shipName}`
-            : `${shipName} ${word}`;
+        switch(randWord) {
+            // adjective
+            case 1:
+                fullShipName = `${getWord(adjectives)} ${shipName}`
+                break;
+            // verb
+            case 2:
+                fullShipName = `${shipName} ${getUniqueVerb(shipName)}`
+                break;
+            // noun
+            default:
+                let randPreposition = Math.floor(Math.random() * 3);
+                let preposition = "";
+
+                switch(randPreposition) {
+                    case 1:
+                        preposition = " and ";
+                        break;
+                    case 2:
+                        preposition = " of "
+                        break;
+                    default:
+                        preposition = " ";
+                }
+
+                fullShipName = `${shipName}${preposition}${getWord(nouns)}`;
+        }
+
+        return fullShipName;
     }
 
     // generate a list of ship names
@@ -109,6 +134,7 @@ const init = (function() {
         document.getElementById('txtPreposition').value = names.length
             ? names.join()
             : '';
+
         addPreposition();
     }
 
