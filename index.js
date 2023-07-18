@@ -123,10 +123,10 @@ const init = (function() {
         let names = shipName.split(' ');
 
         // add primary name
-        document.getElementById('shipPrimary').innerHTML = names.pop();
+        document.getElementById('txtPrimary').value = names.pop();
 
         // add affix
-        document.getElementById('shipAffix').innerHTML = names.length
+        document.getElementById('txtAffix').value = names.length
             ? names.shift()
             : '';
 
@@ -135,7 +135,9 @@ const init = (function() {
             ? names.join(' ')
             : '';
 
+        addAffix();
         addPreposition();
+        addPrimary();
     }
 
     // USER INTERACTION
@@ -156,6 +158,16 @@ const init = (function() {
         addPrefix();
     }
 
+    // add affix to ship name
+    addAffix = (e) => {
+        let affix = typeof e === 'undefined'
+            ? document.getElementById('txtAffix').value
+            : e.target.value;
+
+        document.getElementById('shipAffix').innerHTML = affix;
+        swapButtonHideCheck();
+    }
+
     // add preposition to ship name
     addPreposition = (e) => {
         let preposition = typeof e === 'undefined'
@@ -165,10 +177,31 @@ const init = (function() {
         document.getElementById('shipPreposition').innerHTML = preposition;
     }
 
+    // add primary ship name
+    addPrimary = (e) => {
+        let primary = typeof e === 'undefined'
+            ? document.getElementById('txtPrimary').value
+            : e.target.value;
+
+        document.getElementById('shipPrimary').innerHTML = primary;
+    }
+
+    // clears the affix input field
+    clearAffix = () => {
+        document.getElementById('txtAffix').value = "";
+        addAffix();
+    }
+
     // clears the preposition input field
     clearPreposition = () => {
         document.getElementById('txtPreposition').value = "";
         addPreposition();
+    }
+
+    // clears the primary input field
+    clearPrimary = () => {
+        document.getElementById('txtPrimary').value = "";
+        addPrimary();
     }
 
     // toggles hull and ship name colour
@@ -191,13 +224,16 @@ const init = (function() {
 
     // swaps the primary and affix ship names
     swapNamePosition = () => {
-        let primary = document.getElementById('shipPrimary');
-        let affix = document.getElementById('shipAffix');
-        let newPrimary = affix.innerHTML;
-        let newAffix = primary.innerHTML;
+        let primary = document.getElementById('txtPrimary');
+        let affix = document.getElementById('txtAffix');
+        let newPrimary = affix.value;
+        let newAffix = primary.value;
         
-        primary.innerHTML = newPrimary;
-        affix.innerHTML = newAffix;
+        primary.value = newPrimary;
+        affix.value = newAffix;
+
+        addAffix();
+        addPrimary();
     }
 
     // copy the ship name to the clipboard
@@ -256,8 +292,12 @@ const init = (function() {
     document.getElementById('generateBtn').addEventListener('click', generateNames);
     document.getElementById('txtPrefix').addEventListener('input', addPrefix);
     document.getElementById('clearPrefix').addEventListener('click', clearPrefix);
+    document.getElementById('txtAffix').addEventListener('input', addAffix);
+    document.getElementById('clearAffix').addEventListener('click', clearAffix);
     document.getElementById('txtPreposition').addEventListener('input', addPreposition);
     document.getElementById('clearPreposition').addEventListener('click', clearPreposition);
+    document.getElementById('txtPrimary').addEventListener('input', addPrimary);
+    document.getElementById('clearPrimary').addEventListener('click', clearPrimary);
     
     // toggle hull colour button
     const invertCheckbox = document.getElementById('btnInvert');
