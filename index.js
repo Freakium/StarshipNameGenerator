@@ -67,7 +67,13 @@ const init = (function() {
                         preposition = " ";
                 }
 
-                fullShipName = `${shipName}${preposition}${getWord(nouns)}`;
+                // make sure there are no duplicates
+                let affixName = getWord(nouns);
+                while(affixName === shipName) {
+                    affixName = getWord(nouns);
+                }
+
+                fullShipName = `${affixName}${preposition}${shipName}`;
         }
 
         return fullShipName;
