@@ -7,4 +7,4 @@ A JS project that generates a list of names for a starship. Be it shuttle or fig
 - The preview window allows for prefix and darker hull option.
 
 ____
-Currently hosted at http://shipnamegen.scienceontheweb.net/
+Currently hosted at https://freakium.github.io/shipnamegen/
